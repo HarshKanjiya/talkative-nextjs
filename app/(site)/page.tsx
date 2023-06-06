@@ -5,7 +5,7 @@ import AuthForm from "@/components/layouts/AuthForm";
 export default function Home() {
   return (
     <div className=" w-full flex justify-center items-center py-20  min-h-full bg-gray-100">
-      <div className="w-max" >
+      <div className="w-max flex flex-col items-center " >
         <Image
           height="48"
           width="48"
