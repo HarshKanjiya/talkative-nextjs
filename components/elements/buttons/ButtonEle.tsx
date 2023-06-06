@@ -3,29 +3,29 @@ import { FC } from "react";
 import { clsx } from "clsx";
 
 interface ButtonEleProps {
-  type: "button" | "submit" | "reset" | undefined;
-  fullWidth: boolean;
-  disabled: boolean;
-  onClick?: () => void;
+  type?: "button" | "submit" | "reset" | undefined;
+  fullWidth?: boolean;
   children?: React.ReactNode;
+  onClick?: () => void;
   secondary?: boolean;
   danger?: boolean;
+  disabled?: boolean;
 }
 
 const ButtonEle: FC<ButtonEleProps> = ({
-  disabled,
-  fullWidth,
   type = "button",
+  fullWidth,
   children,
-  danger,
   onClick,
   secondary,
+  danger,
+  disabled,
 }) => {
   return (
     <button
       onClick={onClick}
       type={type}
-      disabled
+      disabled={disabled}
       className={clsx(
         `
     flex
