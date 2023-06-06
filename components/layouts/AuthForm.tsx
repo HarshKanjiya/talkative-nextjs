@@ -1,6 +1,6 @@
 "use client";
 import { FC, useCallback, useState } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle, BsFacebook } from "react-icons/bs";
 import InputEle from "../elements/inputs/InputEle";
 import ButtonEle from "../elements/buttons/ButtonEle";
@@ -23,6 +23,18 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
     }
   }, [page]);
 
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<FieldValues>({
+  //   defaultValues: {
+  //     name: "",
+  //     email: "",
+  //     password: "",
+  //   },
+  // });
+
   const {
     register,
     handleSubmit,
@@ -35,18 +47,59 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
     },
   });
 
-  const onSubmint: SubmitHandler<FieldValues> = (data) => {
+  // const onSubmint: SubmitHandler<FieldValues> = (data) => {
+  //   setLoading(true);
+  //   console.log("data :>> ", data);
+  //   if (page === "LOGIN") {
+  //     //* login logic
+  //   } else {
+  //     axios.post("/api/register", data);
+  //   }
+
+  //   setLoading(false);
+  // };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
-    console.log('data :>> ', data);
-    if (page === "LOGIN") {
-      //* login logic
-    } else {
+    console.log("data :>> ", data);
+    if (page === "SIGNUP") {
       axios.post("/api/register", data);
+      // .then(() =>
+      //   // signIn("credentials", {
+      //   //   ...data,
+      //   //   redirect: false,
+      //   // })
+      // )
+      //     .then((callback) => {
+      //       if (callback?.error) {
+      //         toast.error("Invalid credentials!");
+      //       }
+
+      //       if (callback?.ok) {
+      //         router.push("/conversations");
+      //       }
+      //     })
+      //     .catch(() => toast.error("Something went wrong!"))
+      //     .finally(() => setIsLoading(false));
     }
 
-    setLoading(false);
+    if (page === "LOGIN") {
+      //   signIn("credentials", {
+      //     ...data,
+      //     redirect: false,
+      //   })
+      //     .then((callback) => {
+      //       if (callback?.error) {
+      //         toast.error("Invalid credentials!");
+      //       }
+      //       if (callback?.ok) {
+      //         router.push("/conversations");
+      //       }
+      //     })
+      //     .finally(() => setIsLoading(false));
+      // }
+    }
   };
-
   const socialAction = (action: string) => {
     //* social login
   };
@@ -54,9 +107,7 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
   return (
     <div className="w-full bg-white rounded-md shadow-lg p-5 mt-4 sm:px-6 sm:py-4 ">
       <form
-        onSubmit={() => {
-          handleSubmit(onSubmint);
-        }}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 sm:w-full sm:gap-1.3 md:gap-1.6"
       >
         {page === "SIGNUP" && (
@@ -82,9 +133,9 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
           register={register}
           errors={errors}
         />
-        <div className="  ">
-          <ButtonEle fullWidth type="submit" disabled={loading}>
-            SUBMIT
+        <div>
+          <ButtonEle disabled={loading} fullWidth type="submit">
+            {page === "LOGIN" ? "Sign in" : "Register"}
           </ButtonEle>
         </div>
       </form>

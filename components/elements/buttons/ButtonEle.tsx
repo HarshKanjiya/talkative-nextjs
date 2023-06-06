@@ -15,7 +15,7 @@ interface ButtonEleProps {
 const ButtonEle: FC<ButtonEleProps> = ({
   disabled,
   fullWidth,
-  type,
+  type = "button",
   children,
   danger,
   onClick,
