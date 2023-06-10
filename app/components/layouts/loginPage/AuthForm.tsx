@@ -2,10 +2,12 @@
 import { FC, useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle, BsFacebook } from "react-icons/bs";
-import InputEle from "../elements/inputs/InputEle";
-import ButtonEle from "../elements/buttons/ButtonEle";
+import InputEle from "../../elements/inputs/InputEle";
+import ButtonEle from "../../elements/buttons/ButtonEle";
 import SocialLogin from "./SocialLogin";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 interface AuthFormProps {}
 
@@ -23,18 +25,6 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
     }
   }, [page]);
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<FieldValues>({
-  //   defaultValues: {
-  //     name: "",
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
-
   const {
     register,
     handleSubmit,
@@ -47,59 +37,47 @@ const AuthForm: FC<AuthFormProps> = ({}) => {
     },
   });
 
-  // const onSubmint: SubmitHandler<FieldValues> = (data) => {
-  //   setLoading(true);
-  //   console.log("data :>> ", data);
-  //   if (page === "LOGIN") {
-  //     //* login logic
-  //   } else {
-  //     axios.post("/api/register", data);
-  //   }
-
-  //   setLoading(false);
-  // };
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
-    console.log("data :>> ", data);
     if (page === "SIGNUP") {
-      axios.post("/api/register", data);
-      // .then(() =>
-      //   // signIn("credentials", {
-      //   //   ...data,
-      //   //   redirect: false,
-      //   // })
-      // )
-      //     .then((callback) => {
-      //       if (callback?.error) {
-      //         toast.error("Invalid credentials!");
-      //       }
+      axios
+        .post("/api/register", data)
+        .then(() =>
+          signIn("credentials", {
+            ...data,
+            redirect: false,
+          })
+        )
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid credentials!");
+          }
 
-      //       if (callback?.ok) {
-      //         router.push("/conversations");
-      //       }
-      //     })
-      //     .catch(() => toast.error("Something went wrong!"))
-      //     .finally(() => setIsLoading(false));
+          if (callback?.ok) {
+            // router.push("/conversations");
+          }
+        })
+        .catch(() => toast.error("Something went wrong!"))
+        .finally(() => setLoading(false));
     }
 
     if (page === "LOGIN") {
-      //   signIn("credentials", {
-      //     ...data,
-      //     redirect: false,
-      //   })
-      //     .then((callback) => {
-      //       if (callback?.error) {
-      //         toast.error("Invalid credentials!");
-      //       }
-      //       if (callback?.ok) {
-      //         router.push("/conversations");
-      //       }
-      //     })
-      //     .finally(() => setIsLoading(false));
-      // }
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Invalid credentials!");
+          }
+          if (callback?.ok && !callback?.error) {
+            // router.push("/conversations");
+          }
+        })
+        .finally(() => setLoading(false));
     }
   };
+
   const socialAction = (action: string) => {
     //* social login
   };

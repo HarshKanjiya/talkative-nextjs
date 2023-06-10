@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Logo from "@/images/logo.png";
-import AuthForm from "@/components/layouts/AuthForm";
+import AuthForm from "../components/layouts/loginPage/AuthForm";
 
 export default function Home() {
   return (
