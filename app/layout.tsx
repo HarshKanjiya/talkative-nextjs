@@ -1,3 +1,4 @@
+import AuthContext from "./context/AuthContext";
 import ToasterContext from "./context/ToasterContext";
 import "./globals.css";
 import { Jost } from "next/font/google";
@@ -20,10 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={jost.className}>
-        <ToasterContext />
-        {children}
-      </body>
+      <AuthContext>
+        <body className={jost.className}>
+          <ToasterContext />
+          {children}
+        </body>
+      </AuthContext>
     </html>
   );
 }

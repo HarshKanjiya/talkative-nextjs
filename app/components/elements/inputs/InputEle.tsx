@@ -36,24 +36,26 @@ const InputEle: FC<InputEleProps> = ({
           type={type}
           disabled={!!disabled}
           {...register(id, { required })}
-          className={clsx(`
+          className={clsx(
+            `
           form-input
           border-0
           w-full
           rounded-md
           ring-1
           ring-inset
-          ring-gray-300
+          ring-gray-200
           focus:ring-emerald-500
           focus:ring-2
           shadow-sm
           sm:text-sm
           md:text-base
           min-w-[16rem]
+          text-[#252525]
+          bg-gray-100
           `,
-          errors[id] && "ring-rose-500",
-          disabled && " opacity-50 cursor-not-allowed "
-
+            errors[id] && "ring-rose-500",
+            disabled && " opacity-50 cursor-not-allowed "
           )}
         />
       </div>
